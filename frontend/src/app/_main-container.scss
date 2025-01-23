@@ -1,0 +1,28 @@
+$dash-size: 5px;
+$theme-color: orange;
+$fill-color: beige;
+
+.main-container {
+  // height: 90vh;
+  width: 1200px;
+  min-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  //background-color: green;
+  //border: 1px solid black;
+  //border-radius: 10px;
+  //width: 1000px;
+
+  //padding: 60px;
+	//max-width: 650px;
+	background: lighten($theme-color, 20%);
+	border: $dash-size dashed $theme-color;
+	box-shadow: 0 0 0 ($dash-size / 2) darken($theme-color, 20%),
+		        0 0 0 ($dash-size * 2.5) #fff,
+		        inset 0 0 0 ($dash-size / 2) darken($theme-color, 20%),
+		        0 $dash-size ($dash-size * 2) ($dash-size * 3) rgba(0,0,0,0.5),
+		        inset 0 0 0 ($dash-size * 1.2) #fff,
+		        inset 0 0 100vw 100vw $fill-color;
+}
