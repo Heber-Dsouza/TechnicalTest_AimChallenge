@@ -46,15 +46,15 @@ $fill-color: beige;
   }
 
   button {
-    padding: 3px;
+    padding: 3px 5px 3px 5px;
     margin-right: 3px;
     cursor: pointer;
   }
 }
 
-// .login-container {
-//   display: flex;
-// }
+.login-container {
+  margin-bottom: 10px;
+}
 
 .guest-input-container {
   display: flex;
@@ -62,6 +62,24 @@ $fill-color: beige;
   
   input {
     margin-right: 2px;
+  }
+
+  button {
+    //background:url(/assets/img/dice.png) no-repeat;
+    border: 1px solid #6c6c6c;
+    background-color: #f0f0f0   ;
+    width:30px;
+    height:25px;
+
+    img {
+      width:18px;
+      height:18px;
+    }
+
+    &:active {
+      background-color: white; 
+      border: 1px solid #484848;
+    }
   }
 }
 
