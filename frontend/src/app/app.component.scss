@@ -115,9 +115,11 @@ $fill-color: beige;
   flex-direction: column;
   flex-grow: 0;
   align-items: center;
-  h1 {
+  h2 {
     margin: 0;
     padding: 0;
+    position: relative;
+    top: 10px;
   }
   img {
     height: 80px;
