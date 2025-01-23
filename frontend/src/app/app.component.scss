@@ -1,67 +1,39 @@
 @use "main-container";
+@use "game-left-container";
 
-$border-default: 1px black solid;
 
-.game-left-container {
-  border: $border-default;
-  padding: 5px;
-  margin: 10px;
-}
-
-.profile-main-container {
+.image-background-game {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  margin: 10px 0 10px 0;
+
+  position: relative;
 }
 
-.profile-main-container-wrap {
-  display: flex;
-  align-items: center;
+.landscape-image {
+  height: 480px;
 }
 
-.player-turn-highlight {
-  height: 80px;
-  width: 5px;
-  background-color: red;
-}
+/*
+* 
+* min: 30px
+* max: 120px
+*
+*/
 
-.profile-container {
+.target-image {
+  background-color: yellow;
+  border-radius: 100%;
   border: 1px solid black;
-  margin: 5px;
-  margin-left: 5px;
-  display: flex;
-  background-color: white;
-  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+  width: 120px;
+  height: 120px;
+
+  position: absolute;
+  right: 0%;
+  // top: 0%;
+
+  //left: 0%;
+  bottom: 0%;
+
   
-  img {
-    padding: 5px;
-    margin: 5px;
-    margin-right: 0;
-    border: $border-default;
-    background-color: lightblue;
-  }
-}
-
-.profile-texts {
-  margin: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.player-name {
-  width: 145px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: center;
-}
-
-.time-container {
-  border: $border-default;
-  margin: 5px 0 5px 0;
-  width: 150px;
-  display: flex;
-  justify-content: center;
-  background-color: red;
 }
