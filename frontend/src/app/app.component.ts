@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerCardComponent } from '../components/game-page/player-card/player-card.component';
+import { GameTargetComponent } from '../components/game-page/game-target/game-target.component'; 
 
 class CountdownTimer {
   private intervalId: any = null;
@@ -32,7 +33,7 @@ class CountdownTimer {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [PlayerCardComponent, CommonModule],
+  imports: [PlayerCardComponent, CommonModule, GameTargetComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -55,6 +56,30 @@ export class AppComponent {
       },
     },
   ];
+  target = {
+    showTarget: true,
+    targetSize: 30,
+    targetPosition: {
+      horizontal: {
+        name: "left",
+        value: 30
+      },
+      vertical: {
+        name: "top",
+        value: 30
+      },
+    }
+  };
+  getStyles(): { [key: string]: string } {
+    return {
+      width: (this.target.targetSize || 0) + 'px',
+      height: (this.target.targetSize || 0) + 'px',
+      [this.target.targetPosition.horizontal.name]: this.target.targetPosition.horizontal.value + '%',
+      [this.target.targetPosition.vertical.name]: this.target.targetPosition.vertical.value + '%'
+    };
+  }
+  targetStyleString = this.getStyles();
+
 
   constructor() {
     this.initializeTimers();

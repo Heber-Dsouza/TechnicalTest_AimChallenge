@@ -17,7 +17,11 @@
   <div class="game-right-container">
     <div class="image-background-game">
       <img class="landscape-image" src="assets/img/landscape.png" alt="" draggable="false">
-      <img class="target-image" src="assets/img/target.png" alt="" draggable="false">
+      <game-target
+        *ngIf="target.showTarget && targetStyleString"
+        [targetSize]="target.targetSize"
+        [targetStyleString]="targetStyleString"
+      ></game-target>
     </div>
   </div>
 </div>
