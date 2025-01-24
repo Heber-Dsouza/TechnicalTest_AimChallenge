@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "sass:math";
 
 $dash-size: 5px;
 $theme-color: orange;
@@ -21,12 +22,13 @@ $fill-color: beige;
     //max-width: 650px;
     background: color.adjust($theme-color, $lightness: 20%);
     border: $dash-size dashed $theme-color;
-    box-shadow: 0 0 0 ($dash-size / 2) color.adjust($theme-color, $lightness: -20%),
-              0 0 0 ($dash-size * 2.5) #fff,
-              inset 0 0 0 ($dash-size / 2) color.adjust($theme-color, $lightness: -20%),
-              0 $dash-size ($dash-size * 2) ($dash-size * 3) rgba(0,0,0,0.5),
-              inset 0 0 0 ($dash-size * 1.2) #fff,
-              inset 0 0 100vw 100vw $fill-color;
+    box-shadow: 
+      0 0 0 math.div($dash-size, 2) color.adjust($theme-color, $lightness: -20%),
+      0 0 0 math.div($dash-size * 2.5, 1) #fff,
+      inset 0 0 0 math.div($dash-size, 2) color.adjust($theme-color, $lightness: -20%),
+      0 $dash-size math.div($dash-size * 2, 1) math.div($dash-size * 3, 1) rgba(0, 0, 0, 0.5),
+      inset 0 0 0 math.div($dash-size * 1.2, 1) #fff,
+      inset 0 0 100vw 100vw $fill-color;
   }
 }
 

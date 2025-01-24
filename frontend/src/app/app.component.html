@@ -17,13 +17,17 @@
       </div>
 
 
-      
-  
-  
+      <!-- <player-card 
+        [playerName]="playerName" 
+        [playerStats]="playerStats">
+      </player-card> -->
 
-  
-  
-  
+      <ng-container *ngFor="let player of players">
+        <player-card 
+          [playerName]="player.playerName" 
+          [playerStats]="player.playerStats">
+        </player-card>
+      </ng-container>
   
     </div>
 

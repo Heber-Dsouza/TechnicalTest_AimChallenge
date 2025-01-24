@@ -1,0 +1,97 @@
+<h1>{{ title }}</h1>
+<player-card [playerName]="playerName" [playerStats]="playerStats"></player-card>
+<button (click)="togglePlayerStatus()">Toggle Player Status</button>
+
+export class AppComponent {
+  title = 'frontend';
+  playerName = 'John Doe';
+  playerStats = {
+    secondsMs: 1200,
+    isActive: false
+  };
+  togglePlayerStatus() {
+    this.playerStats = {
+      ...this.playerStats,
+      isActive: !this.playerStats.isActive
+    };
+    console.log('Novo valor de isActive:', this.playerStats.isActive);
+  }
+}
+
+
+console.log():
+  <div *ngIf="playerStats">
+    <p>isActive: {{ playerStats.isActive }}</p>
+  </div>
+
+
+
+multiples:
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+//import { RouterOutlet } from '@angular/router';
+
+import { PlayerCardComponent } from '../components/game-page/player-card/player-card.component'
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [/* RouterOutlet */PlayerCardComponent, CommonModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {
+  title = 'frontend';
+  players = [
+    {
+      playerName: 'Dsouza',
+      playerStats: {
+        secondsMs: 900,
+        isActive: true
+      }
+    },
+    {
+      playerName: 'Archer',
+      playerStats: {
+        secondsMs: 800,
+        isActive: false
+      }
+    }
+  ];
+}
+
+<ng-container *ngFor="let player of players">
+  <player-card 
+    [playerName]="player.playerName" 
+    [playerStats]="player.playerStats">
+  </player-card>
+</ng-container>
+
+
+one:
+import { Component } from '@angular/core';
+//import { RouterOutlet } from '@angular/router';
+
+import { PlayerCardComponent } from '../components/game-page/player-card/player-card.component'
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [/* RouterOutlet */PlayerCardComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {
+  title = 'frontend';
+  playerName = 'John Doe';
+  playerStats = {
+    secondsMs: 1200,
+    isActive: false
+  };
+}
+
+
+<player-card 
+  [playerName]="playerName" 
+  [playerStats]="playerStats">
+</player-card>
