@@ -3,24 +3,6 @@
 
 
     <div class="profile-main-container">
-      <div class="profile-main-container-wrap">
-        <div class="player-turn-highlight"></div>
-        <div class="profile-container">
-          <img src="assets/img/archer.png" alt="Imagem de perfil do jogador">
-          <div class="profile-texts">
-            <span class="player-name">Player Name</span>
-            <div class="time-container">
-              <span class="time-remaining">0:30</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- <player-card 
-        [playerName]="playerName" 
-        [playerStats]="playerStats">
-      </player-card> -->
 
       <ng-container *ngFor="let player of players">
         <player-card 
