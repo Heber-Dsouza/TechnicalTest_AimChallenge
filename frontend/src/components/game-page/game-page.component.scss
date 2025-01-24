@@ -1,0 +1,15 @@
+@use "../main-container-maxin";
+@use "game-left-container";
+
+
+.image-background-game {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 10px 0;
+
+  position: relative;
+}
+
+.landscape-image {
+  height: 480px;
+}

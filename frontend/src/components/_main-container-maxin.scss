@@ -13,13 +13,6 @@ $fill-color: beige;
     justify-content: $just-cont;
     align-items: center;
     user-select: none;
-    //background-color: green;
-    //border: 1px solid black;
-    //border-radius: 10px;
-    //width: 1000px;
-
-    //padding: 60px;
-    //max-width: 650px;
     background: color.adjust($theme-color, $lightness: 20%);
     border: $dash-size dashed $theme-color;
     box-shadow: 
