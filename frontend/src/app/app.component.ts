@@ -77,7 +77,7 @@ export class AppComponent implements OnInit, OnChanges {
           console.log('value', value)
           if(value !== null){
             this.targetSize = value.targetSize
-          this.targetStyleString = this.getStyles(value)
+            this.targetStyleString = this.getStyles(value)
           }
         }
       })
