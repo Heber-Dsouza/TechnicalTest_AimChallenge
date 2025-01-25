@@ -10,11 +10,13 @@
 
         public string PlayerName { get; set; } = "";
         public string? ConnectionId { get; set; }
+        // public string? RequesterPlayerConnectionId { get; set; }
         public PlayerStats PlayerStats { get; set; } = new PlayerStats();
         public bool IsReady { get; set; } = false;
         public bool IsWatching { get; set; } = false;
         public int? Place { get; set; }
         public int? StackPosition { get; set; }
+        public bool HasGameStarted { get; set; } = false;    
 
     }
 

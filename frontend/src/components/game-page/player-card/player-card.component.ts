@@ -23,6 +23,9 @@ type PlayerStats = {
 export class PlayerCardComponent {
   @Input() playerName: string = '';
   @Input() playerStats?: PlayerStats;
+  @Input() isWatching: boolean = false;
+  @Input() isReady: boolean = false;
+  @Input() place?: number;
   getFormattedTime(milliseconds: number | undefined): string {
     if(milliseconds === undefined)
       milliseconds = 0

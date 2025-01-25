@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerCardComponent } from './player-card/player-card.component';
 import { GameTargetComponent } from './game-target/game-target.component'; 
@@ -38,23 +38,7 @@ class CountdownTimer {
   styleUrls: ['./game-page.component.scss'],
 })
 export class GamePageComponent {
-  random255() {
-    return Math.floor(Math.random() * 256);
-  }
-  players = [
-    {
-      playerName: 'Dsouza',
-      playerStats: {
-        secondsMs: 30000,
-        isPlayerTurn: false,
-        randomColors: {
-          r: this.random255(),
-          g: this.random255(),
-          b: this.random255()
-        }
-      },
-    },
-  ];
+  @Input() players: any;
   target = {
     showTarget: true,
     targetSize: 30,
@@ -81,26 +65,26 @@ export class GamePageComponent {
 
 
   constructor() {
-    this.initializeTimers();
+    // this.initializeTimers();
   }
 
-  initializeTimers() {
-    const activePlayer = this.players.find(player => player.playerStats.isPlayerTurn);
+  // initializeTimers() {
+  //   const activePlayer = this.players.find(player => player.playerStats.isPlayerTurn);
   
-    if (activePlayer) {
-      const timer = new CountdownTimer(
-        activePlayer.playerStats.secondsMs,
-        (remainingTime) => {
-          activePlayer.playerStats.secondsMs = remainingTime;
-        },
-        () => {
-          console.log(`Timer do jogador ${activePlayer.playerName} finalizado.`);
-        }
-      );
+  //   if (activePlayer) {
+  //     const timer = new CountdownTimer(
+  //       activePlayer.playerStats.secondsMs,
+  //       (remainingTime) => {
+  //         activePlayer.playerStats.secondsMs = remainingTime;
+  //       },
+  //       () => {
+  //         console.log(`Timer do jogador ${activePlayer.playerName} finalizado.`);
+  //       }
+  //     );
   
-      timer.start();
-    } else {
-      console.log('Nenhum jogador ativo encontrado.');
-    }
-  }
+  //     timer.start();
+  //   } else {
+  //     console.log('Nenhum jogador ativo encontrado.');
+  //   }
+  // }
 }

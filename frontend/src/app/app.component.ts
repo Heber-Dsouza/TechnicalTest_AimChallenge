@@ -20,6 +20,9 @@ export class AppComponent implements OnInit, OnChanges {
   currentPage: number = 0;
   private subscription: Subscription = new Subscription();
 
+  players: any = [];
+  myId: string | null = '';
+
   constructor(private apiService: ApiService, private gameHubService: GameHubService) {
     this.totalUsersOnline = null;
   }
@@ -35,10 +38,32 @@ export class AppComponent implements OnInit, OnChanges {
     });
     
 
-    this.subscription.add(
+    this.subscription
+    .add(
       this.gameHubService.totalUsersOnline$.subscribe({
         next: (value) => {
           this.totalUsersOnline = value;
+        }
+      })
+    )
+
+    this.subscription
+    .add(
+      this.gameHubService.myId$.subscribe({
+        next: (value) => {
+          this.myId = value;
+        }
+      })
+    )
+
+    this.subscription.add(
+      this.gameHubService.players$.subscribe({
+        next: (value: any) => {
+          const _value = value
+          if(_value !== null)
+            this.players = _value
+
+          console.log(this.players)
         }
       })
     );

@@ -11,6 +11,13 @@ export class GameHubService {
   // public totalUsersOnline: number | null; apagar depois
   private totalUsersOnlineSubject = new BehaviorSubject<number | null>(null);
   public totalUsersOnline$ = this.totalUsersOnlineSubject.asObservable();
+
+  private playersSubject = new BehaviorSubject<number | null>(null);
+  public players$ = this.playersSubject.asObservable();
+
+  private myIdSubject = new BehaviorSubject<string | null>(null);
+  public myId$ = this.myIdSubject.asObservable();
+
   constructor() {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl('https://localhost:7124/hubs/UserCount')
@@ -25,12 +32,13 @@ export class GameHubService {
       
     })
 
-    this.hubConnection.on('getTotalUsers', (value) => {
+    this.hubConnection.on('getTotalUsers', (value, myId) => {
+      this.myIdSubject.next(myId);
       this.totalUsersOnlineSubject.next(value);
     })
 
     this.hubConnection.on('mainGameHandlerUpdate', (value) => {
-      console.log(value)
+      this.playersSubject.next(value)
     })
 
     this.hubConnection

@@ -68,3 +68,26 @@ $border-default: 1px solid black;
   position: absolute;
   left: 38%;
 }
+
+.player-game-status {
+  display: flex;  
+}
+
+.is-watching-icon {
+  margin-right: 5px;
+}
+
+.is-ready-checkbox {
+  margin-right: 3px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.is-ready-text {
+  margin-right: 5px;
+}
+
+.player-final-place {
+  font-weight: 700;
+}

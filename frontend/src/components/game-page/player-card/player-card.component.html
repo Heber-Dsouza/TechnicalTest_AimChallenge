@@ -11,7 +11,17 @@
           &nbsp;
           <span class="time-remaining">{{ getFormattedTime(playerStats?.secondsMs) }}</span>
         </div>
-        
+      </div>
+      <div class="player-game-status">
+        <span class="is-watching-icon" *ngIf="isWatching">👁️</span>
+        <input class="is-ready-checkbox" type="checkbox">
+        <span class="is-ready-text" [ngStyle]="{ color: isReady ? 'green' : 'red' }">
+          {{ isReady ? 'Ready' : 'Not Ready' }}
+        </span>
+        <span
+          *ngIf="place"
+          class="player-final-place"
+        >{{ place }}th</span>
       </div>
     </div>
   </div>
