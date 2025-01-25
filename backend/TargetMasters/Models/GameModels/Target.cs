@@ -4,7 +4,7 @@ namespace TargetMasters.Models.GameModels
 {
     public class Target
     {
-        public bool ShowTarget { get; set; } = false;
+        public bool ShowTarget { get; set; } = false; // criado durante o desenvolvimento para testes no front:
         public int TargetSize { get; set; }
         public TargetPosition TargetPosition { get; set; } = new TargetPosition();
     }
@@ -25,9 +25,42 @@ namespace TargetMasters.Models.GameModels
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum AxisName
     {
-        Top,
-        Bottom,
-        Left,
-        Right
+        top,
+        bottom,
+        left,
+        right
+    }
+
+    public class TargetGenerator
+    {
+        private static readonly Random Random = new Random();
+        public static List<Target> GenerateRandomTargets(int numberOfTargets)
+        {
+            var targets = new List<Target>();
+
+            for (int i = 0; i < numberOfTargets; i++)
+            {
+                targets.Add(new Target
+                {
+                    TargetSize = Random.Next(50, 151),
+                    TargetPosition = new TargetPosition
+                    {
+                        Horizontal = new Axis
+                        {
+                            Name = (AxisName)Random.Next(2),
+                            Value = Random.Next(0, 51)
+                        },
+                        Vertical = new Axis
+                        {
+                            Name = (AxisName)(Random.Next(2) + 2),
+                            Value = Random.Next(0, 51)
+                        }
+                    },
+                    ShowTarget = false
+                });
+            }
+
+            return targets;
+        }
     }
 }

@@ -24,6 +24,21 @@ namespace TargetMasters.Hubs
 
             MainGame.Players.RemoveAll(x => x.ConnectionId == connectionId);
 
+            if(MainGame.Players.Count() <= 1)
+                ResetGameStatus();
+
+            if(MainGame.HasStarted && MainGame.Players.FindIndex(x => x.PlayerStats.IsPlayerTurn) == -1)
+            {
+                var currentWinnerPlayer = MainGame.Players
+                    .Where(x => x.IsReady && !x.IsWatching)
+                    .OrderByDescending(x => x.PlayerStats.SecondsMs)
+                    .FirstOrDefault();
+
+                if(currentWinnerPlayer != null)
+                    currentWinnerPlayer.PlayerStats.IsPlayerTurn = true;
+                else ResetGameStatus();
+            }
+
             TotalViews--;
             this.Clients.All.SendAsync("mainGameHandlerUpdate", MainGame.Players).GetAwaiter().GetResult();
             this.Clients.All.SendAsync("getTotalUsers", MainGame.Players.Count()).GetAwaiter().GetResult();
@@ -50,6 +65,7 @@ namespace TargetMasters.Hubs
             if(MainGame.HasStarted)
             {
                 joinedPlayer.IsWatching = true;
+                joinedPlayer.HasGameStarted = true;
             }
 
             MainGame.Players.Add(joinedPlayer);
@@ -80,9 +96,54 @@ namespace TargetMasters.Hubs
             if(!MainGame.HasStarted)
             {
                 MainGame.HasStarted = true;
+                MainGame.NumberOfPlayers = MainGame.Players.Where(x => x.IsReady).Count();
                 MainGame.Players.ForEach(x => x.HasGameStarted = true);
+
                 await this.Clients.All.SendAsync("mainGameHandlerUpdate", MainGame.Players);
             }
+
+            // Cria lista para targets
+            MainGame.TargetsQueue.Clear();
+            var targets = TargetGenerator.GenerateRandomTargets(MainGame.CurrentGameDifficultLevel + 3);
+            MainGame.TargetsQueue.AddRange(targets);
+
+            // Selecionar proximo jogador
+            MainGame.SetNextPlayerTurn();
+
+            await this.Clients.All.SendAsync("mainGameHandlerUpdate", MainGame.Players);
+            await this.Clients.All.SendAsync("targetPositionValues", MainGame.TargetsQueue[0]);
+        }
+
+        public async Task ClicksHander()
+        {
+            MainGame.TargetsQueue.RemoveAt(0);
+
+            if(MainGame.TargetsQueue.Count() == 0)
+            {
+                await GameLogicHandle();
+            }
+
+            await this.Clients.All.SendAsync("targetPositionValues", MainGame.TargetsQueue[0]);
+        }
+
+        public void ResetGameStatus()
+        {
+            MainGame.HasStarted = false;
+            MainGame.TargetsQueue.Clear();
+            MainGame.CurrentGameDifficultLevel = 0;
+            MainGame.CurrentGameTurn = 0;
+            MainGame.CurrentGameRound = 0;
+            MainGame.NumberOfPlayers = 0;
+
+            MainGame.Players.ForEach(x =>
+            {
+                x.PlayerStats.SecondsMs = 30000;
+                x.PlayerStats.IsPlayerTurn = false;
+                x.IsReady = false;
+                x.IsWatching = false;
+                x.Place = null;
+                x.HasGameStarted = false;
+            });
         }
 
         public async Task CountdownTimer()
