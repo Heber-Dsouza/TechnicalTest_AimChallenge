@@ -63,12 +63,12 @@ namespace TargetMasters.Hubs
             var connectionId = Context.ConnectionId;
             var player = MainGame.Players.FirstOrDefault(x => x.ConnectionId == connectionId);
             if (player != null)
-                player.IsReady = true;
+                player.IsReady = !player.IsReady;
 
             await this.Clients.All.SendAsync("mainGameHandlerUpdate", MainGame.Players);
 
             // Todos os players estão prontos:
-            if(MainGame.Players.Count() == MainGame.Players.Where(x => x.IsReady).ToArray().Count())
+            if(MainGame.Players.Count() > 1 && MainGame.Players.Count() == MainGame.Players.Where(x => x.IsReady).ToArray().Count())
             {
                 await GameLogicHandle();
             }

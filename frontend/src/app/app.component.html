@@ -9,5 +9,6 @@
 <game-page
   [players]="players"
   [myId]="myId"
+  (onButtonClickGetReadyForPlay)="onButtonClickGetReadyForPlay()"
   *ngIf="currentPage === 1"
 ></game-page>

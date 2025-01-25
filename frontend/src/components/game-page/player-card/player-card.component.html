@@ -14,10 +14,19 @@
       </div>
       <div class="player-game-status">
         <span class="is-watching-icon" *ngIf="isWatching">👁️</span>
-        <input *ngIf="myId === connectionId" class="is-ready-checkbox" type="checkbox">
-        <span class="is-ready-text" [ngStyle]="{ color: isReady ? 'green' : 'red' }">
-          {{ isReady ? 'Ready' : 'Not Ready' }}
-        </span>
+        <div
+          class="is-ready-checkbox"
+          (click)="myId === connectionId ? handleButtonClickGetReadyForPlayTrigger() : null"
+          value="isReady"
+          [ngStyle]="{ cursor: myId === connectionId ? 'pointer' : 'default' }"
+        >
+          <div *ngIf="myId === connectionId">
+            <span>{{ isReady ? '✅' : '⬜' }}</span>
+          </div>
+          <span class="is-ready-text" [ngStyle]="{ color: isReady ? 'green' : 'red' }">
+            {{ isReady ? 'Ready' : 'Not Ready' }}
+          </span>
+        </div>
         <span
           *ngIf="place"
           class="player-final-place"

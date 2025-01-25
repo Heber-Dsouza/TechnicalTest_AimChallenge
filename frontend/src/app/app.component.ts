@@ -85,6 +85,10 @@ export class AppComponent implements OnInit, OnChanges {
     this.currentPage = 1;
   }
 
+  onButtonClickGetReadyForPlay(): void {
+    this.gameHubService.getReadyForPlay();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     //console.log(gameHubService)
   }

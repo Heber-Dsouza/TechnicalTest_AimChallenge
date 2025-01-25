@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerCardComponent } from './player-card/player-card.component';
 import { GameTargetComponent } from './game-target/game-target.component'; 
@@ -40,6 +40,11 @@ class CountdownTimer {
 export class GamePageComponent {
   @Input() players: any;
   @Input() myId: string | null = '';
+  @Output() onButtonClickGetReadyForPlay: EventEmitter<void> = new EventEmitter<void>();
+
+  handleButtonClickGetReadyForPlay() {
+    this.onButtonClickGetReadyForPlay.emit();
+  }
   target = {
     showTarget: true,
     targetSize: 30,

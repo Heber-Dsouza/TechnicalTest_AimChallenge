@@ -71,6 +71,7 @@ $border-default: 1px solid black;
 
 .player-game-status {
   display: flex;  
+  align-items: center;
 }
 
 .is-watching-icon {
@@ -79,13 +80,19 @@ $border-default: 1px solid black;
 
 .is-ready-checkbox {
   margin-right: 3px;
-  width: 20px;
+  width: 100%;
   height: 20px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    height: 20px;
+  }
 }
 
 .is-ready-text {
-  margin-right: 5px;
+  margin: 0 5px 0 5px;
 }
 
 .player-final-place {

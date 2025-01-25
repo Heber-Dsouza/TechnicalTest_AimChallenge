@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 type RandomColors = {
@@ -28,6 +28,13 @@ export class PlayerCardComponent {
   @Input() place?: number;
   @Input() connectionId?: string;
   @Input() myId: string | null = '';
+  @Output() onButtonClickGetReadyForPlay: EventEmitter<void> = new EventEmitter<void>();
+
+
+  handleButtonClickGetReadyForPlayTrigger() {
+    this.onButtonClickGetReadyForPlay.emit();
+  }
+
   getFormattedTime(milliseconds: number | undefined): string {
     if(milliseconds === undefined)
       milliseconds = 0

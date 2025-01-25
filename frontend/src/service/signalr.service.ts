@@ -75,4 +75,12 @@ export class GameHubService {
       console.error('Erro ao enviar mensagem para o Hub:', err);
     }
   }
+
+  public getReadyForPlay(): void {
+    try {
+      this.hubConnection.send('PreGameOrganizer')
+    } catch (err) {
+      console.error('Erro ao enviar mensagem para o Hub:', err);
+    }
+  }
 }
