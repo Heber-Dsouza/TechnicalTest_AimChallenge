@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TargetMasters.Context;
 using TargetMasters.Models;
 
 namespace TargetMasters.Controllers
@@ -9,27 +7,8 @@ namespace TargetMasters.Controllers
     [Route("[controller]")]
     public class GuestNameController : ControllerBase
     {
-        private readonly AppDbContext _context;
-
-        public GuestNameController(AppDbContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet("GetRandomName")]
         public IActionResult GetRandomName()
-        {
-            var names = _context.GuestNames
-                .AsNoTracking()
-                .ToList();
-
-            if(names.Count == 0 || names == null)
-                return Ok(new { GuestName = InsertNames() });
-
-            return Ok(new { GuestName = GenerateGuestName(names) });
-        }
-
-        private string InsertNames()
         {
             List<GuestName> defaultNames = new()
             {
@@ -53,12 +32,25 @@ namespace TargetMasters.Controllers
                 new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Berserker", WordType=WordType.Noun },
                 new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Epic", WordType=WordType.Adjective },
                 new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Champion", WordType=WordType.Noun },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Fearless", WordType=WordType.Adjective },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Heroic", WordType=WordType.Adjective },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Bold", WordType=WordType.Adjective },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Invincible", WordType=WordType.Adjective },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Powerful", WordType=WordType.Adjective },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Radiant", WordType=WordType.Adjective },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Noble", WordType=WordType.Adjective },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Stoic", WordType=WordType.Adjective },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Sage", WordType=WordType.Noun },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Seeker", WordType=WordType.Noun },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Vanguard", WordType=WordType.Noun },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Defender", WordType=WordType.Noun },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Gladiator", WordType=WordType.Noun },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Wanderer", WordType=WordType.Noun },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Prophet", WordType=WordType.Noun },
+                new() { Id=Guid.NewGuid().ToString(), Deleted=false, CreatedAt=DateTime.Now, Word= "Champion", WordType=WordType.Noun },
             };
 
-            _context.GuestNames.AddRange(defaultNames);
-            _context.SaveChanges();
-
-            return GenerateGuestName(defaultNames);
+            return Ok(new { GuestName = GenerateGuestName(defaultNames) });
         }
 
         private string GenerateGuestName(List<GuestName> defaultNames)

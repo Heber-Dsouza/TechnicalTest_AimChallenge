@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using TargetMasters.Context;
 using TargetMasters.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,11 +18,6 @@ builder.Services.AddCors(options =>
               .AllowCredentials();
     });
 });
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
-);
 
 builder.Services.AddSignalR();
 
