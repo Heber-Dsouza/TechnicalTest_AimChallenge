@@ -8,7 +8,6 @@ import { BehaviorSubject } from 'rxjs';
 
 export class GameHubService {
   private hubConnection: HubConnection;
-  // public totalUsersOnline: number | null; apagar depois
   private totalUsersOnlineSubject = new BehaviorSubject<number | null>(null);
   public totalUsersOnline$ = this.totalUsersOnlineSubject.asObservable();
 
@@ -25,11 +24,6 @@ export class GameHubService {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl('https://localhost:7124/hubs/UserCount')
       .build();
-    // this.hubConnection.on('ReceiveMessage', (user, message) => {
-    //   console.log(`User: ${user}, Message: ${message}`);
-    // });
-
-    // this.totalUsersOnline = null; apagar depois
 
     this.hubConnection.on('updateTotalViews', (value) => {
       
@@ -48,7 +42,6 @@ export class GameHubService {
     })
 
     this.hubConnection.on('targetPositionValues', (value) => {
-      console.log('fromRoot', value)
       this.targetSubject.next(value)
     })
 
@@ -87,6 +80,14 @@ export class GameHubService {
   public getReadyForPlay(): void {
     try {
       this.hubConnection.send('PreGameOrganizer')
+    } catch (err) {
+      console.error('Erro ao enviar mensagem para o Hub:', err);
+    }
+  }
+
+  public onClickListener(): void {
+    try {
+      this.hubConnection.send('ClicksHander')
     } catch (err) {
       console.error('Erro ao enviar mensagem para o Hub:', err);
     }

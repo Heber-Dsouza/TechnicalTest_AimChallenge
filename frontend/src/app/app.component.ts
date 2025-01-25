@@ -65,8 +65,6 @@ export class AppComponent implements OnInit, OnChanges {
           const _value = value
           if(_value !== null)
             this.players = _value
-
-          // console.log(this.players)
         }
       })
     );
@@ -74,7 +72,6 @@ export class AppComponent implements OnInit, OnChanges {
     this.subscription.add(
       this.gameHubService.targetSubject$.subscribe({
         next: (value: any) => {
-          console.log('value', value)
           if(value !== null){
             this.targetSize = value.targetSize
             this.targetStyleString = this.getStyles(value)
@@ -102,6 +99,10 @@ export class AppComponent implements OnInit, OnChanges {
 
   onButtonClickGetReadyForPlay(): void {
     this.gameHubService.getReadyForPlay();
+  }
+
+  onButtonClickListener(): void {
+    this.gameHubService.onClickListener();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

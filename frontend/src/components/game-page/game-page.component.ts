@@ -41,11 +41,24 @@ export class GamePageComponent {
   @Input() players: any;
   @Input() myId: string | null = '';
   @Output() onButtonClickGetReadyForPlay: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onButtonClickListener: EventEmitter<void> = new EventEmitter<void>();
   @Input() targetStyleString: object | null = null;
   @Input() targetSize: number | null = null;
 
+
   handleButtonClickGetReadyForPlay() {
     this.onButtonClickGetReadyForPlay.emit();
+  }
+  handleButtonClickListener() {
+    this.onButtonClickListener.emit();
+  }
+
+  currentPlayerConnectionId: string | null = this.getPlayerTurnConnectionId();
+
+  getPlayerTurnConnectionId(): string | null {
+    const player = this.players?.find((x: any) => x.playerStats?.isPlayerTurn);
+    console.log('player', this.players)
+    return player ? player.connectionId : null;
   }
   // target = {
   //   showTarget: true,

@@ -58,9 +58,6 @@ namespace TargetMasters.Hubs
             var connectionId = Context.ConnectionId;
             var joinedPlayer = new Player(playerName, connectionId);
 
-            //var lastStackPositionNumber = MainGame.Players.Select(x => x.StackPosition).LastOrDefault();
-            //joinedPlayer.StackPosition = lastStackPositionNumber;
-
             // Se Player entrou na sala de jogo enquanto uma partida está em andamento, adquire status de observador até que jogo atual acabe:
             if(MainGame.HasStarted)
             {
@@ -101,6 +98,18 @@ namespace TargetMasters.Hubs
 
                 await this.Clients.All.SendAsync("mainGameHandlerUpdate", MainGame.Players);
             }
+
+            Random random = new Random();
+            int numeroAleatorio = random.Next(1, 7);
+            if (numeroAleatorio == 1)
+            {
+                MainGame.CurrentGameDifficultLevel--;
+                if (MainGame.CurrentGameDifficultLevel < 0)
+                    MainGame.CurrentGameDifficultLevel = 0;
+            }
+            if (numeroAleatorio == 6)
+                MainGame.CurrentGameDifficultLevel++;
+
 
             // Cria lista para targets
             MainGame.TargetsQueue.Clear();

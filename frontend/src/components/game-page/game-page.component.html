@@ -29,6 +29,9 @@
         *ngIf="targetSize && targetStyleString"
         [targetSize]="targetSize"
         [targetStyleString]="targetStyleString"
+        (handleButtonClickListener)="handleButtonClickListener()"
+        [myId]="myId"
+        [players]="players"
       ></game-target>
     </div>
   </div>
