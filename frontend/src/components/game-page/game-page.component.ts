@@ -39,6 +39,7 @@ class CountdownTimer {
 })
 export class GamePageComponent {
   @Input() players: any;
+  @Input() myId: string | null = '';
   target = {
     showTarget: true,
     targetSize: 30,

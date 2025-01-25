@@ -26,6 +26,8 @@ export class PlayerCardComponent {
   @Input() isWatching: boolean = false;
   @Input() isReady: boolean = false;
   @Input() place?: number;
+  @Input() connectionId?: string;
+  @Input() myId: string | null = '';
   getFormattedTime(milliseconds: number | undefined): string {
     if(milliseconds === undefined)
       milliseconds = 0

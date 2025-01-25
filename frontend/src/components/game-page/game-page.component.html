@@ -5,16 +5,18 @@
     <div class="profile-main-container">
 
       <ng-container *ngFor="let player of players">
+        <!-- refatorar essa criatura -->
         <player-card 
           [playerName]="player.playerName" 
           [playerStats]="player.playerStats"
           [isWatching]="player.isWatching"
           [isReady]="player.isReady"
           [place]="player.place"
+          [connectionId]="player.connectionId"
+          [myId]="myId"
         >
         </player-card>
       </ng-container>
-  
     </div>
 
   </div>

@@ -13,7 +13,8 @@ namespace TargetMasters.Hubs
         {
             var connectionId = Context.ConnectionId;
             TotalViews++;
-            this.Clients.All.SendAsync("getTotalUsers", MainGame.Players.Count(), connectionId).GetAwaiter().GetResult();
+            this.Clients.All.SendAsync("getTotalUsers", MainGame.Players.Count()).GetAwaiter().GetResult();
+            this.Clients.Caller.SendAsync("getMyConnectionId", connectionId).GetAwaiter().GetResult();
             return base.OnConnectedAsync();
         }
 

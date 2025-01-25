@@ -14,7 +14,7 @@
       </div>
       <div class="player-game-status">
         <span class="is-watching-icon" *ngIf="isWatching">👁️</span>
-        <input class="is-ready-checkbox" type="checkbox">
+        <input *ngIf="myId === connectionId" class="is-ready-checkbox" type="checkbox">
         <span class="is-ready-text" [ngStyle]="{ color: isReady ? 'green' : 'red' }">
           {{ isReady ? 'Ready' : 'Not Ready' }}
         </span>

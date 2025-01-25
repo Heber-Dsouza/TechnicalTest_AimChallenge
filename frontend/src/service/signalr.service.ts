@@ -32,9 +32,12 @@ export class GameHubService {
       
     })
 
-    this.hubConnection.on('getTotalUsers', (value, myId) => {
-      this.myIdSubject.next(myId);
+    this.hubConnection.on('getTotalUsers', (value) => {
       this.totalUsersOnlineSubject.next(value);
+    })
+
+    this.hubConnection.on('getMyConnectionId', (value) => {
+      this.myIdSubject.next(value);
     })
 
     this.hubConnection.on('mainGameHandlerUpdate', (value) => {
