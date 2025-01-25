@@ -92,4 +92,12 @@ export class GameHubService {
       console.error('Erro ao enviar mensagem para o Hub:', err);
     }
   }
+
+  public handleCountDownTimer(): void {
+    try {
+      this.hubConnection.send('SendCountdownTimer')
+    } catch (err) {
+      console.error('Erro ao enviar mensagem para o Hub:', err);
+    }
+  }
 }

@@ -18,13 +18,21 @@ namespace TargetMasters.Hubs
             return base.OnConnectedAsync();
         }
 
+        public class CustomTimer(double interval) : System.Timers.Timer(interval)
+        {
+            public HubCallerContext? CallerContext { get; set; }
+            public IHubCallerClients? HubCallerClients { get; set; }
+        }
+
         public override Task OnDisconnectedAsync(Exception? exception)
         {
             var connectionId = Context.ConnectionId;
 
             MainGame.Players.RemoveAll(x => x.ConnectionId == connectionId);
 
-            if(MainGame.Players.Count() <= 1)
+            MainGame.NumberOfPlayers = MainGame.Players.Where(x => x.IsReady).Count();
+
+            if (MainGame.Players.Count() <= 1)
                 ResetGameStatus();
 
             if(MainGame.HasStarted && MainGame.Players.FindIndex(x => x.PlayerStats.IsPlayerTurn) == -1)
@@ -118,6 +126,7 @@ namespace TargetMasters.Hubs
 
             // Selecionar proximo jogador
             MainGame.SetNextPlayerTurn();
+            // _ = CountdownTimer();
 
             await this.Clients.All.SendAsync("mainGameHandlerUpdate", MainGame.Players);
             await this.Clients.All.SendAsync("targetPositionValues", MainGame.TargetsQueue[0]);
@@ -153,11 +162,37 @@ namespace TargetMasters.Hubs
                 x.Place = null;
                 x.HasGameStarted = false;
             });
+
+            this.Clients.All.SendAsync("mainGameHandlerUpdate", MainGame.Players).GetAwaiter().GetResult();
         }
 
-        public async Task CountdownTimer()
+        public async Task SendCountdownTimer()
         {
+            var currentPlayer = MainGame.Players.FirstOrDefault(x => x.PlayerStats.IsPlayerTurn);
+            if(currentPlayer != null)
+            {
+                currentPlayer.PlayerStats.SecondsMs -= 100;
+                await this.Clients.Others.SendAsync("mainGameHandlerUpdate", MainGame.Players);
 
+                if (currentPlayer.PlayerStats.SecondsMs <= 0)
+                {
+                    currentPlayer.Place = MainGame.NumberOfPlayers;
+                    currentPlayer.IsReady = false;
+                    currentPlayer.IsWatching = true;
+                    currentPlayer.PlayerStats.IsPlayerTurn = false;
+                    MainGame.NumberOfPlayers--;
+
+                    if(MainGame.Players.Where(x => x.IsReady && !x.IsWatching).Count() == 1)
+                    {
+                        ResetGameStatus();
+                    } else
+                    {
+                        await GameLogicHandle();
+                    }
+
+                    
+                }
+            }
         }
     }
 }

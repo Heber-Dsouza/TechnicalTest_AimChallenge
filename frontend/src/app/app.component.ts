@@ -7,7 +7,6 @@ import { HomePageComponent } from '../components/home-page/home-page.component'
 import { ApiService } from '../service/api.service'
 import { GameHubService } from '../service/signalr.service'
 
-
 @Component({
   selector: 'app-root',
   imports: [RouterModule, CommonModule, HomePageComponent, GamePageComponent],
@@ -103,6 +102,10 @@ export class AppComponent implements OnInit, OnChanges {
 
   onButtonClickListener(): void {
     this.gameHubService.onClickListener();
+  }
+
+  handleCountDownTimer(): void {
+    this.gameHubService.handleCountDownTimer();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

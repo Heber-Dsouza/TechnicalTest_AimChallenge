@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerCardComponent } from './player-card/player-card.component';
 import { GameTargetComponent } from './game-target/game-target.component'; 
@@ -6,11 +6,17 @@ import { GameTargetComponent } from './game-target/game-target.component';
 class CountdownTimer {
   private intervalId: any = null;
 
-  constructor(public remainingTime: number, private onTick: (time: number) => void, private onFinish?: () => void) {}
+  constructor(
+    public remainingTime: number,
+    private onTick: (time: number) => void,
+    private onFinish?: () => void
+  ) {}
 
   start() {
+    this.stop(); 
+    this.onTick(this.remainingTime); 
     this.intervalId = setInterval(() => {
-      this.remainingTime -= 1000;
+      this.remainingTime -= 100;
 
       if (this.remainingTime <= 0) {
         this.stop();
@@ -19,7 +25,7 @@ class CountdownTimer {
       } else {
         this.onTick(this.remainingTime);
       }
-    }, 1000);
+    }, 100);
   }
 
   stop() {
@@ -37,13 +43,16 @@ class CountdownTimer {
   templateUrl: './game-page.component.html',
   styleUrls: ['./game-page.component.scss'],
 })
-export class GamePageComponent {
+export class GamePageComponent implements OnChanges  {
   @Input() players: any;
   @Input() myId: string | null = '';
   @Output() onButtonClickGetReadyForPlay: EventEmitter<void> = new EventEmitter<void>();
   @Output() onButtonClickListener: EventEmitter<void> = new EventEmitter<void>();
+  @Output() handleCountDownTimer: EventEmitter<void> = new EventEmitter<void>();
   @Input() targetStyleString: object | null = null;
   @Input() targetSize: number | null = null;
+
+  private activeTimer: CountdownTimer | null = null;
 
 
   handleButtonClickGetReadyForPlay() {
@@ -53,59 +62,52 @@ export class GamePageComponent {
     this.onButtonClickListener.emit();
   }
 
+  handleCountDownTimerTrigger() {
+    this.handleCountDownTimer.emit();
+  }
+
   currentPlayerConnectionId: string | null = this.getPlayerTurnConnectionId();
 
   getPlayerTurnConnectionId(): string | null {
     const player = this.players?.find((x: any) => x.playerStats?.isPlayerTurn);
-    console.log('player', this.players)
     return player ? player.connectionId : null;
   }
-  // target = {
-  //   showTarget: true,
-  //   targetSize: 30,
-  //   targetPosition: {
-  //     horizontal: {
-  //       name: "left",
-  //       value: 30
-  //     },
-  //     vertical: {
-  //       name: "top",
-  //       value: 30
-  //     },
-  //   }
-  // };
-  // getStyles(): { [key: string]: string } {
-  //   return {
-  //     width: (this.target.targetSize || 0) + 'px',
-  //     height: (this.target.targetSize || 0) + 'px',
-  //     [this.target.targetPosition.horizontal.name]: this.target.targetPosition.horizontal.value + '%',
-  //     [this.target.targetPosition.vertical.name]: this.target.targetPosition.vertical.value + '%'
-  //   };
-  // }
-  // targetStyleString = this.getStyles();
 
 
   constructor() {
-    // this.initializeTimers();
   }
 
-  // initializeTimers() {
-  //   const activePlayer = this.players.find(player => player.playerStats.isPlayerTurn);
-  
-  //   if (activePlayer) {
-  //     const timer = new CountdownTimer(
-  //       activePlayer.playerStats.secondsMs,
-  //       (remainingTime) => {
-  //         activePlayer.playerStats.secondsMs = remainingTime;
-  //       },
-  //       () => {
-  //         console.log(`Timer do jogador ${activePlayer.playerName} finalizado.`);
-  //       }
-  //     );
-  
-  //     timer.start();
-  //   } else {
-  //     console.log('Nenhum jogador ativo encontrado.');
-  //   }
-  // }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['players'] && this.players) {
+      this.handleTimerLogic();
+    }
+  }
+
+  private handleTimerLogic() {
+    const activePlayer = this.players.find((player: any) => player.playerStats.isPlayerTurn);
+
+    if (activePlayer?.connectionId === this.myId) {
+      if (!this.activeTimer) {
+        this.activeTimer = new CountdownTimer(
+          activePlayer.playerStats.secondsMs,
+          (remainingTime) => {
+            this.handleCountDownTimerTrigger();
+            activePlayer.playerStats.secondsMs = remainingTime;
+            console.log(`Tempo restante: ${remainingTime}ms`);
+          },
+          () => {
+            console.log(`O timer do jogador ${activePlayer.playerName} terminou.`);
+            this.activeTimer = null; 
+          }
+        );
+      }
+
+      this.activeTimer.start(); 
+    } else {
+      if (this.activeTimer) {
+        this.activeTimer.stop(); 
+        this.activeTimer = null; 
+      }
+    }
+  }
 }
