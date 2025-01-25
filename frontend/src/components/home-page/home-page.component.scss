@@ -56,6 +56,22 @@
   }
 }
 
+.server-status-container {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+
+  :nth-child(1){
+    text-decoration: underline;
+    font-size: 15px;
+  }
+
+  :nth-child(3){
+    margin-top: 10px;
+    color: orangered;
+    font-size: 14px;
+  }
+}
 
 .separator {
   width: 1px;
@@ -115,6 +131,20 @@
     cursor: pointer;
     user-select: none;
     touch-action: manipulation;
+
+    &[disabled] {
+      background-color: #d3d3d3;
+      box-shadow: 0px 0px 14px -7px #d3d3d3;
+      background-image: linear-gradient(45deg, #8b8b8b 0%, #d3d3d3  51%, #8b8b8b  100%);
+
+      &:hover {
+        background-position: left center;
+      }
+
+      &:active {
+        transform: none;
+      }
+    }
     
     &:hover {
       background-position: right center;
@@ -126,6 +156,11 @@
     &:active {
       transform: scale(0.95);
     }
+  }
+
+  span {
+    color: orangered;
+    margin-top: 10px;
   }
 }
 

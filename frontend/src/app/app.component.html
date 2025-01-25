@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<home-page
+  *ngIf="currentPage === 0"
+  [totalPlayersOnline]="totalUsersOnline"
+  [(guestNameValue)]="randomName"
+  (getNewRandomName)="onButtonClick()"
+></home-page>
+
+<game-page
+  *ngIf="currentPage === 1"
+></game-page>

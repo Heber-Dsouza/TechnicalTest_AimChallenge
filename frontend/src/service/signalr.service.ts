@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr'
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,8 @@ import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr'
 export class GameHubService {
   private hubConnection: HubConnection;
   public totalUsersOnline: number | null;
+  private totalUsersOnlineSubject = new BehaviorSubject<number | null>(null);
+  public totalUsersOnline$ = this.totalUsersOnlineSubject.asObservable();
   constructor() {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl('https://localhost:7124/hubs/UserCount')
@@ -19,12 +22,12 @@ export class GameHubService {
     this.totalUsersOnline = null;
 
     this.hubConnection.on('updateTotalViews', (value) => {
-      console.log(value)
+      
     })
 
     this.hubConnection.on('getTotalUsers', (value) => {
-      this.totalUsersOnline = value;
-      console.log(value)
+      this.totalUsersOnlineSubject.next(value);
+      
     })
 
     this.hubConnection

@@ -19,10 +19,15 @@
     <div>
       <span>Play as a Guest:</span>
       <div class="guest-input-container">
-        <input type="text">
-        <button>
+        <input type="text" [value]="guestNameValue" (input)="onInputChange($event)">
+        <button (click)="onButtonClick()">
           <img src="assets/img/dice.png" alt="">
         </button>
+      </div>
+      <div class="server-status-container">
+        <span>Alpha Version Server: </span>
+        <span>{{ totalPlayersOnline === null ? '🔴' : totalPlayersOnline <= 5 ? '🟢' : '🕒' }} players online: {{ totalPlayersOnline || '?' }}/5</span>
+        <span>We will bring more servers in the future, stay tuned.</span>
       </div>
     </div>
   </div>
@@ -34,9 +39,10 @@
     <div class="main-right-side-container">
       <h2 class="main-title">Welcome to </h2>
       <img src="assets/img/logo.png" alt="">
-      <button>
+      <button [disabled]="guestNameValue === '' || totalPlayersOnline && totalPlayersOnline > 5 ? true : null">
         START GAME
       </button>
+      <span *ngIf="totalPlayersOnline && totalPlayersOnline > 5">Sorry, the server limit has been reached.</span>
     </div>
   </div>
 </div>
