@@ -1,9 +1,10 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GamePageComponent } from '../components/game-page/game-page.component'
 import { HomePageComponent } from '../components/home-page/home-page.component'
 import { ApiService } from '../service/api.service'
+import { GameHubService } from '../service/signalr.service'
 
 
 @Component({
@@ -12,11 +13,14 @@ import { ApiService } from '../service/api.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnChanges {
   title = 'frontend';
   randomName: string | null = null;
+  totalUsersOnline: number | null;
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private gameHubService: GameHubService) {
+    this.totalUsersOnline = null;
+    console.log('usersOnline', gameHubService.totalUsersOnline)
   }
 
   ngOnInit(): void {
@@ -29,5 +33,12 @@ export class AppComponent implements OnInit {
         console.error('Erro ao carregar nome:', err);
       }
     });
+    
+    // this.gameHubService.newWindowLoadedOnClient()
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //console.log(gameHubService)
+  }
+
 }

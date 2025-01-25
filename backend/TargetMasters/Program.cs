@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TargetMasters.Context;
+using TargetMasters.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +10,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder => {
-        builder.AllowAnyOrigin();
-        builder.AllowAnyMethod();
-        builder.AllowAnyHeader();
+    options.AddDefaultPolicy(policy => {
+        //policy.AllowAnyOrigin();
+        //policy.AllowAnyMethod();
+        //policy.AllowAnyHeader();
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -20,6 +25,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -33,4 +40,5 @@ app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<UserHub>("/hubs/UserCount");
 app.Run();
