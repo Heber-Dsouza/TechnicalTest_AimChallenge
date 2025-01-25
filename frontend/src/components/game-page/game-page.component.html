@@ -26,8 +26,8 @@
     <div class="image-background-game">
       <img class="landscape-image" src="assets/img/landscape.png" alt="" draggable="false">
       <game-target
-        *ngIf="target.showTarget && targetStyleString"
-        [targetSize]="target.targetSize"
+        *ngIf="targetSize && targetStyleString"
+        [targetSize]="targetSize"
         [targetStyleString]="targetStyleString"
       ></game-target>
     </div>

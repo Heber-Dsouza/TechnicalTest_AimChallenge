@@ -41,33 +41,35 @@ export class GamePageComponent {
   @Input() players: any;
   @Input() myId: string | null = '';
   @Output() onButtonClickGetReadyForPlay: EventEmitter<void> = new EventEmitter<void>();
+  @Input() targetStyleString: object | null = null;
+  @Input() targetSize: number | null = null;
 
   handleButtonClickGetReadyForPlay() {
     this.onButtonClickGetReadyForPlay.emit();
   }
-  target = {
-    showTarget: true,
-    targetSize: 30,
-    targetPosition: {
-      horizontal: {
-        name: "left",
-        value: 30
-      },
-      vertical: {
-        name: "top",
-        value: 30
-      },
-    }
-  };
-  getStyles(): { [key: string]: string } {
-    return {
-      width: (this.target.targetSize || 0) + 'px',
-      height: (this.target.targetSize || 0) + 'px',
-      [this.target.targetPosition.horizontal.name]: this.target.targetPosition.horizontal.value + '%',
-      [this.target.targetPosition.vertical.name]: this.target.targetPosition.vertical.value + '%'
-    };
-  }
-  targetStyleString = this.getStyles();
+  // target = {
+  //   showTarget: true,
+  //   targetSize: 30,
+  //   targetPosition: {
+  //     horizontal: {
+  //       name: "left",
+  //       value: 30
+  //     },
+  //     vertical: {
+  //       name: "top",
+  //       value: 30
+  //     },
+  //   }
+  // };
+  // getStyles(): { [key: string]: string } {
+  //   return {
+  //     width: (this.target.targetSize || 0) + 'px',
+  //     height: (this.target.targetSize || 0) + 'px',
+  //     [this.target.targetPosition.horizontal.name]: this.target.targetPosition.horizontal.value + '%',
+  //     [this.target.targetPosition.vertical.name]: this.target.targetPosition.vertical.value + '%'
+  //   };
+  // }
+  // targetStyleString = this.getStyles();
 
 
   constructor() {

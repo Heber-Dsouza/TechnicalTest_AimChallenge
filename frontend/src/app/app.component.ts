@@ -23,6 +23,9 @@ export class AppComponent implements OnInit, OnChanges {
   players: any = [];
   myId: string | null = '';
 
+  targetStyleString: object | null = null; // mudar esse nome
+  targetSize: number | null = null;
+
   constructor(private apiService: ApiService, private gameHubService: GameHubService) {
     this.totalUsersOnline = null;
   }
@@ -54,7 +57,7 @@ export class AppComponent implements OnInit, OnChanges {
           this.myId = value;
         }
       })
-    )
+    );
 
     this.subscription.add(
       this.gameHubService.players$.subscribe({
@@ -63,7 +66,19 @@ export class AppComponent implements OnInit, OnChanges {
           if(_value !== null)
             this.players = _value
 
-          console.log(this.players)
+          // console.log(this.players)
+        }
+      })
+    );
+
+    this.subscription.add(
+      this.gameHubService.targetSubject$.subscribe({
+        next: (value: any) => {
+          console.log('value', value)
+          if(value !== null){
+            this.targetSize = value.targetSize
+          this.targetStyleString = this.getStyles(value)
+          }
         }
       })
     );
@@ -97,4 +112,12 @@ export class AppComponent implements OnInit, OnChanges {
     this.subscription.unsubscribe();
   }
 
+  getStyles(target: any) {
+    return {
+      width: (target.targetSize || 0) + 'px',
+      height: (target.targetSize || 0) + 'px',
+      [target.targetPosition.horizontal.name]: target.targetPosition.horizontal.value + '%',
+      [target.targetPosition.vertical.name]: target.targetPosition.vertical.value + '%'
+    };
+  }
 }

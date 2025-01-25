@@ -20,8 +20,8 @@ import { CommonModule } from '@angular/common';
 
 export class GameTargetComponent {
   // @Input() targetPosition?: TargetPosition;
-  @Input() targetSize?: number;
-  @Input() targetStyleString: any;
+  @Input() targetSize: number | null = null;
+  @Input() targetStyleString: object | null = null;
   
 
   constructor() {

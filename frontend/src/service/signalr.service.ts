@@ -18,6 +18,9 @@ export class GameHubService {
   private myIdSubject = new BehaviorSubject<string | null>(null);
   public myId$ = this.myIdSubject.asObservable();
 
+  private targetSubject = new BehaviorSubject<string | null>(null);
+  public targetSubject$ = this.targetSubject.asObservable();
+
   constructor() {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl('https://localhost:7124/hubs/UserCount')
@@ -42,6 +45,11 @@ export class GameHubService {
 
     this.hubConnection.on('mainGameHandlerUpdate', (value) => {
       this.playersSubject.next(value)
+    })
+
+    this.hubConnection.on('targetPositionValues', (value) => {
+      console.log('fromRoot', value)
+      this.targetSubject.next(value)
     })
 
     this.hubConnection
