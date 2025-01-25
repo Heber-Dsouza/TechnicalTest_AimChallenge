@@ -28,6 +28,7 @@ export class PlayerCardComponent {
   @Input() place?: number;
   @Input() connectionId?: string;
   @Input() myId: string | null = '';
+  @Input() hasGameStarted: boolean = false;
   @Output() onButtonClickGetReadyForPlay: EventEmitter<void> = new EventEmitter<void>();
 
 

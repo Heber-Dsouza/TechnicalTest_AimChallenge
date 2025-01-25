@@ -77,7 +77,12 @@ namespace TargetMasters.Hubs
         // Se inicia o jogo:
         public async Task GameLogicHandle()
         {
-
+            if(!MainGame.HasStarted)
+            {
+                MainGame.HasStarted = true;
+                MainGame.Players.ForEach(x => x.HasGameStarted = true);
+                await this.Clients.All.SendAsync("mainGameHandlerUpdate", MainGame.Players);
+            }
         }
 
         public async Task CountdownTimer()

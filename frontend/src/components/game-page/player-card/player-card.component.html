@@ -15,6 +15,7 @@
       <div class="player-game-status">
         <span class="is-watching-icon" *ngIf="isWatching">👁️</span>
         <div
+          *ngIf="!hasGameStarted"
           class="is-ready-checkbox"
           (click)="myId === connectionId ? handleButtonClickGetReadyForPlayTrigger() : null"
           value="isReady"
