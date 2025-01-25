@@ -9,7 +9,7 @@ type RandomColors = {
 
 type PlayerStats = {
   secondsMs: number;
-  isActive: boolean;
+  isPlayerTurn: boolean;
   randomColors: RandomColors;
 };
 

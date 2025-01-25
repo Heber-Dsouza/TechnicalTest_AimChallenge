@@ -13,11 +13,15 @@ export class HomePageComponent {
   @Input() guestNameValue: string = '';
   @Output() guestNameValueChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() getNewRandomName: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onButtonClickJoinGameHub: EventEmitter<void> = new EventEmitter<void>();
   onInputChange(event: any) {
     this.guestNameValueChange.emit(event.target.value);
   }
   onButtonClick() {
     this.getNewRandomName.emit();  // Dispara o evento para o pai
+  }
+  onButtonClickJoinGameHubTrigger() {
+    this.onButtonClickJoinGameHub.emit();  // Dispara o evento para o pai
   }
   constructor() {
   }

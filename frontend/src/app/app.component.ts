@@ -17,7 +17,7 @@ import { GameHubService } from '../service/signalr.service'
 export class AppComponent implements OnInit, OnChanges {
   randomName: string = 'PlaceHolder100';
   totalUsersOnline: number | null;
-  currentPage: number = 1;
+  currentPage: number = 0;
   private subscription: Subscription = new Subscription();
 
   constructor(private apiService: ApiService, private gameHubService: GameHubService) {
@@ -53,6 +53,11 @@ export class AppComponent implements OnInit, OnChanges {
         console.error('Erro ao chamar o endpoint:', err);
       }
     });
+  }
+
+  onButtonClickJoinGameHub(): void {
+    this.gameHubService.joinGameHub(this.randomName);
+    this.currentPage = 1;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

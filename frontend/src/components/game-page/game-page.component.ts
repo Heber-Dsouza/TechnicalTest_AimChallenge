@@ -46,7 +46,7 @@ export class GamePageComponent {
       playerName: 'Dsouza',
       playerStats: {
         secondsMs: 30000,
-        isActive: false,
+        isPlayerTurn: false,
         randomColors: {
           r: this.random255(),
           g: this.random255(),
@@ -85,7 +85,7 @@ export class GamePageComponent {
   }
 
   initializeTimers() {
-    const activePlayer = this.players.find(player => player.playerStats.isActive);
+    const activePlayer = this.players.find(player => player.playerStats.isPlayerTurn);
   
     if (activePlayer) {
       const timer = new CountdownTimer(

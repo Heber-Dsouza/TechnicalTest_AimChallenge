@@ -1,7 +1,7 @@
 <div class="profile-main-container-wrap">
   <div 
     class="player-turn-highlight" 
-    [ngStyle]="{ visibility: playerStats?.isActive ? 'visible' : 'hidden' }">
+    [ngStyle]="{ visibility: playerStats?.isPlayerTurn ? 'visible' : 'hidden' }">
   </div>
   <div class="profile-container">
     <img src="assets/img/archer.png" alt="Imagem de perfil do jogador" [ngStyle]="{ 'background': 'rgb(' + playerStats!.randomColors.r + ', ' + playerStats!.randomColors.g + ', ' + playerStats!.randomColors.b + ')' }">    <div class="profile-texts">
