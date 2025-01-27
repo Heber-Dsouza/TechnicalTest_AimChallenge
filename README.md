@@ -11,7 +11,7 @@ Arquitetura robusta: Combinação de ferramentas e tecnologias atualizadas que p
 ## 🔗 Link do deploy
 
 
-- [Target Masters](http://target-masters.surge.sh/home))
+- [Target Masters](http://target-masters.surge.sh/home)
 
 ## :wrench: Tecnologias utilizadas
 * Tecnologia;
